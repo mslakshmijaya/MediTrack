@@ -64,12 +64,30 @@ public class Main {
             while (exitMenu) {
 
                 displayMenu();
-                int i = input.nextInt();
+                int i =  Integer.parseInt(input.nextLine().trim());
                 switch (i) {
                     case 1 -> addPersonDetails(true);
                     case 2 -> PatientService.fetchPatientList();
+                    case 5-> {
+
+                            System.out.println("----- enter contact number to find the Patient details -------");
+                            String number = input.nextLine().trim();
+                        boolean isValidPhone = Validator.isValidPhoneNumber(number);
+                        if (!isValidPhone) {
+                            System.out.println(" Contact number is not valid ");
+                            return;
+
+                        }
+                        PatientService.searchPatientByContactNumber(number);
+                    }
                     case 6 -> addPersonDetails(false);
                     case 7 -> DoctorService.fetchDoctorList();
+                    case 10 -> {
+
+                        System.out.println("----- enter specialization  to find the Doctor details -------");
+                        String specialization = input.nextLine().trim();
+                        DoctorService.searchDoctorBySpecialization(specialization);
+                    }
                     case 11 -> exitMenu = false;
                     default -> throw new InvalidInputException("Please enter a valid option!");
                 }
