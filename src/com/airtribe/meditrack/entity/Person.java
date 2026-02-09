@@ -52,4 +52,9 @@ public class Person {
     public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
     }
+    @Override
+    public String toString() {
+        return id + ", " + name + ", " + age+" , " + Gender + ", " + contactNumber;
+    }
+
 }

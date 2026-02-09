@@ -1,46 +1,79 @@
 package com.airtribe.meditrack.service;
 
+import com.airtribe.meditrack.entity.Doctor;
 import com.airtribe.meditrack.entity.Patient;
+import enums.Specialization;
 
 import java.util.*;
 
 public class PatientService {
 
-    private static Map<String, Patient> patientMap = new HashMap<>();
+    private static Map<String, List<Patient>> patientMap = new HashMap<>();
 
     public static void addPatient(String name, String age, String contactNumber, String gender, String ailment) {
         Patient patient = new Patient("PAT", name, age, contactNumber, gender, ailment);
-        patientMap.put(contactNumber, patient);
+        patientMap
+                .computeIfAbsent(patient.getContactNumber(), k -> new ArrayList<>())
+                .add(patient);
         System.out.println("Patient added successfully!");
 
     }
 
     public static void fetchPatientList() {
-        if (patientMap.isEmpty()) {
-            System.out.println("No patients found.");
-        } else {
-            System.out.println("----- Patient List  -----");
-            Iterator<Patient> iterator = patientMap.values().iterator();
-            while (iterator.hasNext()) {
-                Patient patient = iterator.next();
-                String buffer = patient.getId() + "     " + patient.getName() + "            " + patient.getAge()+ "            " + patient.getContactNumber() + "          " + patient.getAilment();
-
-                System.out.println(buffer);
-                System.out.println("------------------------");
-            }
-
+        patientMap.forEach((spec, patients) -> {
+            patients.forEach(System.out::println);
+        });
         }
-    }
+
     // ✅ Search patient by contact number
     public static void searchPatientByContactNumber(String contactNumber) {
-        Patient patient = patientMap.get(contactNumber);
-        if (patient != null) {
-            System.out.println("Patient found:");
-            String buffer = patient.getId() + "     " + patient.getName() + "            " + patient.getAge()+ "            " + patient.getContactNumber() + "          " + patient.getAilment();
-            System.out.println(buffer);
-        } else {
-            System.out.println("No patient found with contact number: " + contactNumber);
-        }
-    }
 
+        List<Patient> patients = patientMap.get(contactNumber);
+        if (patients == null) {
+            System.out.println("No patients found for contactNumber: " + contactNumber);
+        }
+        else {
+            patients.forEach(patient -> System.out.println(patient));
+        }
+
+    }
+    public static void deletePatient(String contactNumber,String patientId) {
+
+
+            List<Patient> patients = patientMap.get(contactNumber);
+            if (patients != null) {
+                boolean removed = patients.removeIf(d -> d.getId() .equals(patientId) );
+                if (removed) {
+                    System.out.println("Patient with ID " + patientId + " removed from " + contactNumber);
+                    if (patients.isEmpty()) {
+                        patientMap.remove(contactNumber); // clean up empty list
+                    }
+                } else {
+                    System.out.println("Patient with ID " + patientId + " not found in under " + contactNumber);
+                }
+            } else {
+                System.out.println("No Patient registered under the number " + contactNumber);
+            }
+        }
+
+ public static void updatePatient(String contactNumber,String id,String newName, String newAge, String newAilment)
+ {
+     List<Patient> patients = patientMap.get(contactNumber);
+     if (patients != null) {
+         for (Patient patient : patients) {
+             if (patient.getId().equals(id)) {
+                 // Update details
+                 Optional.ofNullable(newName).ifPresent(patient::setName);
+                 Optional.ofNullable(newAge).ifPresent(patient::setAge);
+                 Optional.ofNullable(newAilment).ifPresent(patient::setAilment);
+                 // inherited from Person
+                 System.out.println("Patient updated: " + patient);
+                 return;
+             }
+         }
+         System.out.println("Patient with ID " + id + " not found in " + contactNumber);
+     } else {
+         System.out.println("No Patient registered under " + contactNumber);
+     }
+ }
 }
