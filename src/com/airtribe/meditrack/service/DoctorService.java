@@ -2,52 +2,73 @@ package com.airtribe.meditrack.service;
 
 import com.airtribe.meditrack.entity.Doctor;
 import com.airtribe.meditrack.entity.Patient;
+import enums.Specialization;
 
 import java.util.*;
 
 public class DoctorService {
-    public static List<Doctor> doctorList =new ArrayList<Doctor>();
-    private static Map<String, Doctor> doctorMap = new HashMap<>();
-    public static void addDoctor(String name, String age, String contactNumber, String gender,String specialization )
-    {
+    private static Map<Specialization, List<Doctor>> doctorMap = new HashMap<>();
+
+    public static void addDoctor(String name, String age, String contactNumber, String gender, Specialization specialization) {
         Doctor doctor = new Doctor("DOC", name, age, contactNumber, gender, specialization);
-        doctorMap.put(specialization, doctor);
+        doctorMap
+                .computeIfAbsent(doctor.getSpecialization(), k -> new ArrayList<>())
+                .add(doctor);
         System.out.println("Doctor added successfully!");
     }
+
+    public static void searchDoctorBySpecialization(Specialization specialization) {
+
+        List<Doctor> doctors = doctorMap.get(specialization);
+        if (doctors == null) {
+            System.out.println("No doctors found for specialization: " + specialization);
+        }
+        else {
+            doctors.forEach(doctor -> System.out.println(doctor));
+        }
+
+
+    }
     public static void fetchDoctorList() {
+        doctorMap.forEach((spec, docs) -> {
+            docs.forEach(System.out::println);
+        });
+    }
 
-        if (doctorMap.isEmpty()) {
-            System.out.println("No Doctor found.");
+    public static void deleteDoctor(Specialization specialization, String doctorId) {
+        List<Doctor> doctors = doctorMap.get(specialization);
+        if (doctors != null) {
+            boolean removed = doctors.removeIf(d -> d.getId() .equals(doctorId) );
+            if (removed) {
+                System.out.println("Doctor with ID " + doctorId + " removed from " + specialization);
+                if (doctors.isEmpty()) {
+                    doctorMap.remove(specialization); // clean up empty list
+                }
+            } else {
+                System.out.println("Doctor with ID " + doctorId + " not found in " + specialization);
+            }
         } else {
-            System.out.println("----- Doctor List  -----");
-            Iterator<Doctor> iterator = doctorMap.values().iterator();
-            while (iterator.hasNext()) {
-                Doctor doctor = iterator.next();
-                String buffer = doctor.getId() + "     " + doctor.getName() + "            " + doctor.getAge()+ "            " + doctor.getContactNumber() + "          " + doctor.getSpecialization();
-
-                System.out.println(buffer);
-                System.out.println("------------------------");
-            }
-
-        }
-
-    }
-
-    public static void searchDoctorBySpecialization(String specialization) {
-        boolean found = false;
-        for (Doctor doctor : doctorMap.values()) {
-            if (doctor.getSpecialization().equalsIgnoreCase(specialization)) {
-                System.out.println("Doctor found:");
-                String buffer = doctor.getId() + "     " + doctor.getName() + "     " + doctor.getAge()
-                        + "     " + doctor.getContactNumber() + "     " + doctor.getSpecialization();
-                System.out.println(buffer);
-                System.out.println("------------------------");
-                found = true;
-            }
-        }
-        if (!found) {
-            System.out.println("No doctor found with specialization: " + specialization);
+            System.out.println("No doctors registered under " + specialization);
         }
     }
 
+
+    public static void updateDoctor(Specialization specialization, String doctorId, String newName, String newAge) {
+        List<Doctor> doctors = doctorMap.get(specialization);
+        if (doctors != null) {
+            for (Doctor doctor : doctors) {
+                if (doctor.getId().equals(doctorId)) {
+                    // Update details
+                    Optional.ofNullable(newName).ifPresent(doctor::setName);
+                    Optional.ofNullable(newAge).ifPresent(doctor::setAge);
+                    // inherited from Person
+                    System.out.println("Doctor updated: " + doctor);
+                    return;
+                }
+            }
+            System.out.println("Doctor with ID " + doctorId + " not found in " + specialization);
+        } else {
+            System.out.println("No doctors registered under " + specialization);
+        }
+    }
 }

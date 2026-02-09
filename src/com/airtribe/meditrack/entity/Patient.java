@@ -15,4 +15,9 @@ public class Patient extends Person {
     public void setAilment(String ailment) {
         this.ailment = ailment;
     }
+    @Override
+    public String toString() {
+        return super.toString() + ", " + ailment;
+    }
+
 }
