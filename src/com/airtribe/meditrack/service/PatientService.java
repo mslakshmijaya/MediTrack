@@ -1,8 +1,6 @@
 package com.airtribe.meditrack.service;
 
-import com.airtribe.meditrack.entity.Doctor;
 import com.airtribe.meditrack.entity.Patient;
-import enums.Specialization;
 
 import java.util.*;
 
@@ -11,7 +9,7 @@ public class PatientService {
     private static Map<String, List<Patient>> patientMap = new HashMap<>();
 
     public static void addPatient(String name, String age, String contactNumber, String gender, String ailment) {
-        Patient patient = new Patient("PAT", name, age, contactNumber, gender, ailment);
+        Patient patient = new Patient( name, age, contactNumber, gender, ailment);
         patientMap
                 .computeIfAbsent(patient.getContactNumber(), k -> new ArrayList<>())
                 .add(patient);
@@ -76,4 +74,49 @@ public class PatientService {
          System.out.println("No Patient registered under " + contactNumber);
      }
  }
+    // ✅ Search by Name
+    public static void searchPatient(String name, boolean isNameSearch) {
+        boolean found = false;
+        for (List<Patient> patients : patientMap.values()) {
+            for (Patient patient : patients) {
+                if (patient.getName().equalsIgnoreCase(name)) {
+                    System.out.println("Patient found:");
+                    System.out.println(patient);
+                    found = true;
+                }
+            }
+        }
+        if (!found) {
+            System.out.println("No patient found with name: " + name);
+        }
+    }
+
+    // ✅ Search by Age
+    public static void searchPatient(int age) {
+        boolean found = false;
+        for (List<Patient> patients : patientMap.values()) {
+            for (Patient patient : patients) {
+                if (Integer.parseInt(patient.getAge()) == age) {
+                    System.out.println("Patient found:");
+                    System.out.println(patient);
+                    found = true;
+                }
+            }
+        }
+        if (!found) {
+            System.out.println("No patient found with age: " + age);
+        }
+    }
+    public static Patient getPatient(String contactNumber, String patientId) {
+        List<Patient> patients = patientMap.get(contactNumber);
+        if (patients != null) {
+            for (Patient p : patients) {
+                if (p.getId().equalsIgnoreCase(patientId)) {
+                    return p;
+                }
+            }
+        }
+        return null;
+    }
+
 }

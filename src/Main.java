@@ -1,8 +1,10 @@
+import com.airtribe.meditrack.exception.AppointmentNotFoundException;
 import com.airtribe.meditrack.exception.InvalidInputException;
+import com.airtribe.meditrack.service.AppointmentService;
 import com.airtribe.meditrack.service.DoctorService;
 import com.airtribe.meditrack.service.PatientService;
 import com.airtribe.meditrack.util.Validator;
-import enums.Specialization;
+import com.airtribe.meditrack.enums.Specialization;
 
 import java.util.Scanner;
 
@@ -41,7 +43,7 @@ public class Main {
         System.out.print("Enter new Ailment (or press Enter to skip): ");
         String newAilment = input.nextLine();
 
-       PatientService.updatePatient(contact,id,
+        PatientService.updatePatient(contact, id,
                 newName.isEmpty() ? null : newName,
                 newAge.isEmpty() ? null : newAge,
                 newAilment.isEmpty() ? null : newAilment);
@@ -118,9 +120,28 @@ public class Main {
             // Show available specializations
 
             Specialization specialization = getSpecialization();
-
-            DoctorService.addDoctor(name, age, contactNumber, gender, specialization);
+            System.out.println(" enter consultationFee : ");
+            String consultationFee = input.nextLine().trim();
+            DoctorService.addDoctor(name, age, contactNumber, gender, specialization, consultationFee);
         }
+
+
+    }
+
+    private static void addAppointment() {
+        Specialization specialization = getSpecialization();
+        DoctorService.searchDoctorBySpecialization(specialization);
+        Scanner input = new Scanner(System.in);
+        System.out.println(" Enter DoctorID from the list  : ");
+        String doctorId = input.nextLine();
+        System.out.println(" Enter contactnumber  to get patient   : ");
+        String contactnumber = input.nextLine();
+        PatientService.searchPatientByContactNumber(contactnumber);
+        System.out.println(" Enter PatientID from the list  : ");
+        String patientId = input.nextLine();
+        System.out.println(" Enter datetime   : ");
+        String datetime = input.nextLine();
+        AppointmentService.createAppointment(contactnumber, patientId, doctorId, specialization, datetime);
 
 
     }
@@ -152,7 +173,7 @@ public class Main {
                         System.out.print("Enter Patient ID : ");
                         String id = input.nextLine();
                         if (!id.isEmpty()) {
-                            PatientService.deletePatient(number,id);
+                            PatientService.deletePatient(number, id);
                         } else {
                             System.out.println("ID value should not be empty");
                         }
@@ -189,7 +210,22 @@ public class Main {
                         Specialization specialization = getSpecialization();
                         DoctorService.searchDoctorBySpecialization(specialization);
                     }
-                    case 11 -> exitMenu = false;
+                    case 11 -> addAppointment();
+                    case 12 -> AppointmentService.viewAppointments();
+                    case 13->{
+                        AppointmentService.viewAppointments();
+
+                        System.out.println(" Enter Appointment ID from the list  : ");
+                        String appointmentId = input.nextLine();
+                        try{
+                            AppointmentService.cancelAppointment(appointmentId);
+                        }
+                       catch(AppointmentNotFoundException e)
+                       {
+                           System.out.println(e.getMessage());
+                       }
+                    }
+                    case 16 -> exitMenu = false;
                     default -> throw new InvalidInputException("Please enter a valid option!");
                 }
 

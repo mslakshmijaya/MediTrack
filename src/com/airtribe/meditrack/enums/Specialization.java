@@ -1,4 +1,4 @@
-package enums;
+package com.airtribe.meditrack.enums;
 
 public enum Specialization {
     CARDIOLOGY,
