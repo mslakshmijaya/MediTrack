@@ -6,17 +6,20 @@ public class IdGenerator {
 
     private static final AtomicLong doctorCounter = new AtomicLong(1);
     private static final AtomicLong patientCounter = new AtomicLong(1);
+    private static final AtomicLong appointmentCounter = new AtomicLong(1);
 
-    // Generate a sequential numeric ID
-    private static long generateSequentialId(boolean isDocId) {
-        return isDocId ? doctorCounter.getAndIncrement() : patientCounter.getAndIncrement();
+    // Generate a sequential numeric ID based on prefix
+    private static long generateSequentialId(String prefix) {
+        return switch (prefix) {
+            case "DOC" -> doctorCounter.getAndIncrement();
+            case "PAT" -> patientCounter.getAndIncrement();
+            case "APT" -> appointmentCounter.getAndIncrement();
+            default -> throw new IllegalArgumentException("Unknown prefix: " + prefix);
+        };
     }
 
     // Generate a custom ID with prefix
     public static String generateId(String prefix) {
-        return prefix + "-" + generateSequentialId(prefix.equals("DOC"));
+        return prefix + "-" + generateSequentialId(prefix);
     }
-
-
-
 }

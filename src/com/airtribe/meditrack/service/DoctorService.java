@@ -1,16 +1,15 @@
 package com.airtribe.meditrack.service;
 
 import com.airtribe.meditrack.entity.Doctor;
-import com.airtribe.meditrack.entity.Patient;
-import enums.Specialization;
+import com.airtribe.meditrack.enums.Specialization;
 
 import java.util.*;
 
 public class DoctorService {
     private static Map<Specialization, List<Doctor>> doctorMap = new HashMap<>();
 
-    public static void addDoctor(String name, String age, String contactNumber, String gender, Specialization specialization) {
-        Doctor doctor = new Doctor("DOC", name, age, contactNumber, gender, specialization);
+    public static void addDoctor(String name, String age, String contactNumber, String gender, Specialization specialization,String consultationFee) {
+        Doctor doctor = new Doctor( name, age, contactNumber, gender, specialization,consultationFee);
         doctorMap
                 .computeIfAbsent(doctor.getSpecialization(), k -> new ArrayList<>())
                 .add(doctor);
@@ -71,4 +70,17 @@ public class DoctorService {
             System.out.println("No doctors registered under " + specialization);
         }
     }
+    public static Doctor getDoctor(Specialization specialization, String doctorId) {
+        List<Doctor> doctors = doctorMap.get(specialization);
+        if (doctors != null) {
+            for (Doctor d : doctors) {
+                if (d.getId().equalsIgnoreCase(doctorId)) {
+                    return d;
+                }
+            }
+        }
+        return null;
+    }
+
+
 }

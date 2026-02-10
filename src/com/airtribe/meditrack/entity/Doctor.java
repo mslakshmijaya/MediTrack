@@ -1,13 +1,25 @@
 package com.airtribe.meditrack.entity;
 
-import enums.Specialization;
+import com.airtribe.meditrack.constants.Constants;
+import com.airtribe.meditrack.interfaces.Payable;
+import com.airtribe.meditrack.enums.Specialization;
 
-public class Doctor extends Person {
+public class Doctor extends Person implements Payable {
     Specialization  specialization;
+    private double consultationFee;
 
-    public Doctor(String prefix, String name, String age, String contactNumber, String gender, Specialization specialization) {
-        super(prefix, name, age, contactNumber, gender);
+    public double getConsultationFee() {
+        return consultationFee;
+    }
+
+    public void setConsultationFee(double consultationFee) {
+        this.consultationFee = consultationFee;
+    }
+
+    public Doctor( String name, String age, String contactNumber, String gender, Specialization specialization, String consultationFee) {
+        super(Constants.DOCTOR_PREFIX, name, age, contactNumber, gender);
         this.specialization = specialization;
+        this.consultationFee = Double.parseDouble(consultationFee);
     }
 
     public Specialization  getSpecialization() {
@@ -19,7 +31,12 @@ public class Doctor extends Person {
     }
     @Override
     public String toString() {
-        return super.toString() + ", " + specialization;
+        return super.toString() + ", " + specialization + ", " + consultationFee;
+    }
+    // ✅ Implement Payable
+    @Override
+    public double calculatePayment() {
+        return consultationFee;
     }
 
 

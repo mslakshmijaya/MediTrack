@@ -1,10 +1,12 @@
 package com.airtribe.meditrack.entity;
 
+import com.airtribe.meditrack.constants.Constants;
+
 public class Patient extends Person {
 
     private String ailment;
-    public Patient(String prefix, String name, String age, String contactNumber, String gender,String ailment) {
-        super(prefix, name, age, contactNumber, gender);
+    public Patient( String name, String age, String contactNumber, String gender,String ailment) {
+        super(Constants.PATIENT_PREFIX, name, age, contactNumber, gender);
         this.ailment = ailment;
     }
 
