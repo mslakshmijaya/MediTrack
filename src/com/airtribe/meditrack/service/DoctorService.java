@@ -81,6 +81,10 @@ public class DoctorService {
         }
         return null;
     }
+    public static Map<Specialization, List<Doctor>> getAllDoctors() {
+        return doctorMap;
+    }
+
 
 
 }

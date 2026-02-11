@@ -49,6 +49,14 @@ public class Person {
         return contactNumber;
     }
 
+    public String getGender() {
+        return Gender;
+    }
+
+    public void setGender(String gender) {
+        Gender = gender;
+    }
+
     public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
     }

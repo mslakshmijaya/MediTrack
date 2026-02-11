@@ -47,4 +47,8 @@ public class AppointmentService {
         }
         throw new AppointmentNotFoundException("Appointment not found");
     }
+
+    public static Map<String, Appointment> getAllAppointments() {
+        return appointmentMap;
+    }
 }

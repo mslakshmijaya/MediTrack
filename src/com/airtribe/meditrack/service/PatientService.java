@@ -118,5 +118,9 @@ public class PatientService {
         }
         return null;
     }
+    public static Map<String, List<Patient>> getAllPatients() {
+        return patientMap;
+    }
+
 
 }

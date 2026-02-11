@@ -1,0 +1,4 @@
+ID,PatientId,PatientName,DoctorId,DoctorName,AppointmentDate&Time,Status
+APT-1,PAT-3,Raju,DOC-2,Pragya,12/02/2026 3PM,CONFIRMED
+APT-3,PAT-2,Mouli,DOC-3,Krishna,16/02/2026 5PM,CONFIRMED
+APT-2,PAT-1,Jessy,DOC-1,Manish,14/02/2026 4PM,CONFIRMED
