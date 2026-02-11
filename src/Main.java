@@ -1,11 +1,17 @@
+import com.airtribe.meditrack.entity.Appointment;
+import com.airtribe.meditrack.entity.Doctor;
+import com.airtribe.meditrack.entity.Patient;
 import com.airtribe.meditrack.exception.AppointmentNotFoundException;
 import com.airtribe.meditrack.exception.InvalidInputException;
 import com.airtribe.meditrack.service.AppointmentService;
 import com.airtribe.meditrack.service.DoctorService;
 import com.airtribe.meditrack.service.PatientService;
+import com.airtribe.meditrack.util.CSVUtil;
 import com.airtribe.meditrack.util.Validator;
 import com.airtribe.meditrack.enums.Specialization;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -25,7 +31,8 @@ public class Main {
         System.out.println("----- 11.Add Appointment -------");
         System.out.println("----- 12.View all Appointment details -------");
         System.out.println("----- 13. Cancel Appointment -------");
-        System.out.println("----- 14. Exit the Menu  -------");
+        System.out.println("----- 14. Save data to CSV  -------");
+        System.out.println("----- 15. Exit the Menu  -------");
         System.out.print("Enter your choice: ");
     }
 
@@ -145,6 +152,42 @@ public class Main {
 
 
     }
+    private static void saveDataToCSV() {
+        // Patients
+        List<String> patientRows = new ArrayList<>();
+        patientRows.add("ID"+","+"Name"+","+"Age"+","+"ContactNumber"+","+"Gender"+","+"Aliment");
+        for (List<Patient> patients : PatientService.getAllPatients().values()) {
+
+            for (Patient p : patients) {
+                patientRows.add(p.getId() + "," + p.getName() + "," + p.getAge() + "," +
+                        p.getContactNumber() + "," + p.getGender() + "," + p.getAilment());
+            }
+        }
+        CSVUtil.saveToCSV("patients.csv", patientRows);
+
+        // Doctors
+        List<String> doctorRows = new ArrayList<>();
+        doctorRows.add("ID"+","+"Name"+","+"Age"+","+"ContactNumber"+","+"Gender"+","+"Specialization"+","+"ConsultationFee");
+        for (List<Doctor> doctors : DoctorService.getAllDoctors().values()) {
+            for (Doctor d : doctors) {
+                doctorRows.add(d.getId() + "," + d.getName() + "," + d.getAge() + "," +
+                        d.getContactNumber() + "," + d.getGender() + "," +
+                        d.getSpecialization() + "," + d.getConsultationFee());
+            }
+        }
+        CSVUtil.saveToCSV("doctors.csv", doctorRows);
+
+        // Appointments
+        List<String> appointmentRows = new ArrayList<>();
+        appointmentRows.add("ID"+","+"PatientId"+","+"PatientName"+","+"DoctorId"+","+"DoctorName"+","+"AppointmentDate&Time"+","+"Status");
+        for (Appointment a : AppointmentService.getAllAppointments().values()) {
+            appointmentRows.add(a.getId() + "," + a.getPatient().getId() + ","+a.getPatient().getName() + "," +
+                    a.getDoctor().getId()+ ","+a.getDoctor().getName() + "," + a.getDateTime() + "," + a.getStatus());
+        }
+        CSVUtil.saveToCSV("appointments.csv", appointmentRows);
+
+        System.out.println("Data saved to CSV successfully!");
+    }
 
     public static void main(String[] args) {
 
@@ -225,6 +268,7 @@ public class Main {
                            System.out.println(e.getMessage());
                        }
                     }
+                    case 14->saveDataToCSV();
                     case 16 -> exitMenu = false;
                     default -> throw new InvalidInputException("Please enter a valid option!");
                 }

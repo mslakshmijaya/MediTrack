@@ -18,6 +18,14 @@ public class Appointment implements Serializable, Cloneable {
         this.status = AppointmentStatus.CONFIRMED;
     }
 
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
+
     public String getId() { return id; }
     public Patient getPatient() { return patient; }
     public Doctor getDoctor() { return doctor; }
