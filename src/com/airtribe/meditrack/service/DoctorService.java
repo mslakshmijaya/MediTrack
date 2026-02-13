@@ -85,6 +85,17 @@ public class DoctorService {
         return doctorMap;
     }
 
+    public static Doctor getDoctorById(String doctorId) {
 
+        for (List<Doctor> doctors : doctorMap.values()) {
+            for (Doctor doctor : doctors) {
+                if (doctor.getId().equalsIgnoreCase(doctorId)) {
+                    return doctor;
+                }
+            }
+        }
+
+        return null;
+    }
 
 }

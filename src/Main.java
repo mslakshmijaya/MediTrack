@@ -1,4 +1,5 @@
 import com.airtribe.meditrack.entity.Appointment;
+import com.airtribe.meditrack.entity.Bill;
 import com.airtribe.meditrack.entity.Doctor;
 import com.airtribe.meditrack.entity.Patient;
 import com.airtribe.meditrack.exception.AppointmentNotFoundException;
@@ -6,6 +7,8 @@ import com.airtribe.meditrack.exception.InvalidInputException;
 import com.airtribe.meditrack.service.AppointmentService;
 import com.airtribe.meditrack.service.DoctorService;
 import com.airtribe.meditrack.service.PatientService;
+import com.airtribe.meditrack.service.billing.StandardBillingStrategy;
+import com.airtribe.meditrack.service.billing.BillingStrategy;
 import com.airtribe.meditrack.util.CSVUtil;
 import com.airtribe.meditrack.util.Validator;
 import com.airtribe.meditrack.enums.Specialization;
@@ -30,9 +33,10 @@ public class Main {
         System.out.println("----- 10.Search a Doctor -------");
         System.out.println("----- 11.Add Appointment -------");
         System.out.println("----- 12.View all Appointment details -------");
-        System.out.println("----- 13. Cancel Appointment -------");
-        System.out.println("----- 14. Save data to CSV  -------");
-        System.out.println("----- 15. Exit the Menu  -------");
+        System.out.println("----- 13.Cancel Appointment -------");
+        System.out.println("------14.generateBill-----");
+        System.out.println("----- 15.Save data to CSV  -------");
+        System.out.println("----- 16.Exit the Menu  -------");
         System.out.print("Enter your choice: ");
     }
 
@@ -188,6 +192,34 @@ public class Main {
 
         System.out.println("Data saved to CSV successfully!");
     }
+    
+    private static void generateBill() {
+        Scanner input = new Scanner(System.in);
+
+        // Show appointments first
+        AppointmentService.viewAppointments();
+
+        System.out.println("Enter Appointment ID to generate bill: ");
+        String appointmentId = input.nextLine();
+
+        try {
+            Appointment appointment = AppointmentService.getAppointmentById(appointmentId);
+
+            BillingStrategy strategy = new StandardBillingStrategy();
+
+            Bill bill = AppointmentService.generateBill(appointment, strategy);
+
+            System.out.println("\n===== BILL DETAILS =====");
+            System.out.println(bill);
+
+            System.out.println("\n===== BILL SUMMARY =====");
+            System.out.println(bill.generateSummary());
+
+        } catch (AppointmentNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
     public static void main(String[] args) {
 
@@ -268,7 +300,8 @@ public class Main {
                            System.out.println(e.getMessage());
                        }
                     }
-                    case 14->saveDataToCSV();
+                    case 14 -> generateBill();
+                    case 15->saveDataToCSV();
                     case 16 -> exitMenu = false;
                     default -> throw new InvalidInputException("Please enter a valid option!");
                 }

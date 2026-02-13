@@ -7,6 +7,7 @@ public class IdGenerator {
     private static final AtomicLong doctorCounter = new AtomicLong(1);
     private static final AtomicLong patientCounter = new AtomicLong(1);
     private static final AtomicLong appointmentCounter = new AtomicLong(1);
+    private static final AtomicLong billCounter = new AtomicLong(1);
 
     // Generate a sequential numeric ID based on prefix
     private static long generateSequentialId(String prefix) {
@@ -14,6 +15,7 @@ public class IdGenerator {
             case "DOC" -> doctorCounter.getAndIncrement();
             case "PAT" -> patientCounter.getAndIncrement();
             case "APT" -> appointmentCounter.getAndIncrement();
+            case "BILL" -> billCounter.getAndIncrement();
             default -> throw new IllegalArgumentException("Unknown prefix: " + prefix);
         };
     }
