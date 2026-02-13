@@ -122,5 +122,20 @@ public class PatientService {
         return patientMap;
     }
 
+ // Search Patient by ID
+    public static Patient searchPatientById(String patientId) {
 
+        for (List<Patient> patients : patientMap.values()) {
+            for (Patient patient : patients) {
+                if (patient.getId().equalsIgnoreCase(patientId)) {
+                    System.out.println("Patient found:");
+                    System.out.println(patient);
+                    return patient;
+                }
+            }
+        }
+
+        System.out.println("No patient found with ID: " + patientId);
+        return null;
+    }
 }
