@@ -35,17 +35,11 @@ This guide walks you through installing the Java Development Kit (JDK) and Java 
 ### Windows
 1. Open **System Properties → Advanced → Environment Variables**.
 2. Add a new variable:
-   - `JAVA_HOME = C:\Program Files\Java\jdk-<version>`
+   - `JAVA_HOME = C:\Program Files\Java\jdk-25.0.2`
 3. Edit the `PATH` variable and add:
    - `%JAVA_HOME%\bin`
 
-**Screenshot Placeholder:** Insert screenshot of Environment Variables window here.
-
-### Linux/macOS
-Add the following lines to your shell configuration file (`~/.bashrc` or `~/.zshrc`):
-```bash
-export JAVA_HOME=/usr/lib/jvm/jdk-<version>
-export PATH=$JAVA_HOME/bin:$PATH
+**Screenshot Placeholder:** ![Alt Txt](binPath.jpg).
 
 
 ## Sample HelloWorld Program . 
