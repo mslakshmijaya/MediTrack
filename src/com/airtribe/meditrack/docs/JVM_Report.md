@@ -184,7 +184,8 @@ The **Execution Engine** is the heart of the JVM. It takes the bytecode loaded b
     static int compute(int x) {
         return x * x;
     }
-}```
+}
+```
 
  -The JVM will initially interpret compute(), but after many calls, JIT compiles it into native code.
 
