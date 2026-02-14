@@ -54,6 +54,18 @@ class Demo {
 - Stack overflow occurs if recursion or deep calls exceed the allocated stack size.  
 - Stack size can be tuned using `-Xss`.
 
+- Example:
+```java
+public class StackDemo {
+    public static void main(String[] args) {
+        int x = 10;   // Stored in Stack
+        int y = 20;   // Stored in Stack
+        int sum = x + y;
+        System.out.println(sum);
+    }
+}
+```
+
 ---
 
 ### **Method Area**
@@ -67,6 +79,16 @@ class Demo {
 - In modern JVMs, this is implemented as **Metaspace** (uses native memory).  
 - Can be tuned with options like `-XX:MetaspaceSize` and `-XX:MaxMetaspaceSize`.
 
+- Example:
+```java
+class MethodAreaDemo {
+    static int counter = 0; // Class variable stored in Method Area
+    static void increment() {
+        counter++;
+    }
+}
+```
+
 ---
 
 ### **PC Register**
@@ -76,6 +98,15 @@ class Demo {
 - Helps the JVM resume execution correctly after method calls or thread context switches.  
 - Very lightweight and managed internally by the JVM — no tuning required.
 
+- Example:
+```java
+public class PCRegisterDemo {
+    public static void main(String[] args) {
+        System.out.println("Instruction 1"); // PC points here
+        System.out.println("Instruction 2"); // PC moves here
+    }
+}
+```
 ---
 
 ---
