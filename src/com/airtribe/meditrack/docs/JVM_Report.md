@@ -26,6 +26,53 @@ The JVM defines several memory regions to manage program execution:
 
 ---
 
+### **Heap**
+**Description:**  
+- Shared across all threads.  
+- Stores all objects and arrays created during program execution.  
+- Divided into **Young Generation** (new objects, short‑lived), **Old Generation** (long‑lived objects), and sometimes **Permanent Generation/Metaspace** (class metadata).  
+- Managed automatically by the **Garbage Collector**, which reclaims memory from unused objects.  
+- Heap size can be tuned using JVM options like `-Xms` (initial size) and `-Xmx` (maximum size).
+
+---
+
+### **Stack**
+**Description:**  
+- Each thread has its own private stack.  
+- Contains **frames** for each method call, storing:  
+  - Local variables  
+  - Operand stack (intermediate calculations)  
+  - Return values and references  
+- When a method is invoked, a new frame is pushed; when it completes, the frame is popped.  
+- Stack overflow occurs if recursion or deep calls exceed the allocated stack size.  
+- Stack size can be tuned using `-Xss`.
+
+---
+
+### **Method Area**
+**Description:**  
+- Shared across all threads.  
+- Stores class‑level data:  
+  - Class structures (fields, methods)  
+  - Static variables  
+  - Runtime constant pool  
+  - Compiled bytecode for methods  
+- In modern JVMs, this is implemented as **Metaspace** (uses native memory).  
+- Can be tuned with options like `-XX:MetaspaceSize` and `-XX:MaxMetaspaceSize`.
+
+---
+
+### **PC Register**
+**Description:**  
+- Each thread has its own Program Counter (PC) register.  
+- Points to the current bytecode instruction being executed.  
+- Helps the JVM resume execution correctly after method calls or thread context switches.  
+- Very lightweight and managed internally by the JVM — no tuning required.
+
+---
+
+---
+
 ## 3. Execution Engine
 The **Execution Engine** runs the bytecode loaded by the Class Loader.  
 - **Interpreter** – Reads and executes bytecode instructions one by one.  
