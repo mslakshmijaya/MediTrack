@@ -186,10 +186,8 @@ The **Execution Engine** is the heart of the JVM. It takes the bytecode loaded b
     }
 }
 ```
-
  -The JVM will initially interpret compute(), but after many calls, JIT compiles it into native code.
 
-   
 3. **Garbage Collector**
  – Reclaims memory from unused objects.
  - Automatically reclaims memory from objects no longer in use.
@@ -205,7 +203,8 @@ The **Execution Engine** is the heart of the JVM. It takes the bytecode loaded b
         System.gc(); // Suggests JVM to run Garbage Collector
         System.out.println("Garbage Collection requested.");
     }
-}```
+}
+```
 ---
 
 ## 4. JIT Compiler vs Interpreter
