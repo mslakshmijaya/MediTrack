@@ -8,6 +8,8 @@ import com.airtribe.meditrack.entity.Doctor;
 
 import com.airtribe.meditrack.enums.Specialization;
 import com.airtribe.meditrack.exception.AppointmentNotFoundException;
+import com.airtribe.meditrack.observer.DoctorNotificationObserver;
+import com.airtribe.meditrack.observer.PatientNotificationObserver;
 import com.airtribe.meditrack.service.billing.BillingStrategy;
 import com.airtribe.meditrack.util.CSVUtil;
 import com.airtribe.meditrack.util.IdGenerator;
@@ -28,9 +30,17 @@ public class AppointmentService {
 
 		Appointment appointment = new Appointment(appointmentId, patient, doctor, dateTime);
 		appointmentMap.put(appointmentId, appointment);
-		System.out.println("Appointment created successfully: " + appointment);
-	}
+        NotifyObservers(appointment);
 
+
+        System.out.println("Appointment created successfully: " + appointment);
+	}
+   private static void NotifyObservers(Appointment appointment)
+   {
+       AppointmentNotifier.addObserver(new PatientNotificationObserver());
+       AppointmentNotifier.addObserver(new DoctorNotificationObserver());
+       AppointmentNotifier.notifyObservers(appointment);
+   }
 	// ✅ View Appointments
 	public static void viewAppointments() {
 		if (appointmentMap.isEmpty()) {
@@ -46,6 +56,7 @@ public class AppointmentService {
 		if (appointment != null) {
 
 			appointment.setStatus(AppointmentStatus.CANCELLED);
+            NotifyObservers(appointment);
 			System.out.println("Appointment cancelled: " + appointment);
 			return;
 		}
