@@ -20,20 +20,19 @@ The **Class Loader Subsystem** is responsible for loading Java class files (.cla
            System.out.println(text);
        }
    }
-```
+   ```
 
   - **Extension Class Loader** – Loads classes from the `ext` directory.
   - Loads classes from the jre/lib/ext directory or any other extension directories.
    - Example :
    ```java
-   import javax.crypto.Cipher; // Comes from extension libraries
-   public class ExtensionDemo {
+    import javax.crypto.Cipher; // Comes from extension libraries
+    public class ExtensionDemo {
     public static void main(String[] args) throws Exception {
         Cipher cipher = Cipher.getInstance("AES"); 
         System.out.println("Extension class loaded: " + cipher.getAlgorithm());
     }
-}
-   ```
+}```
   - **Application Class Loader** – Loads user‑defined classes from the classpath.
   - Example : - Loads user-defined classes from the classpath (CLASSPATH environment variable).
   
