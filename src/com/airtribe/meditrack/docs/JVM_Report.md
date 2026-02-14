@@ -3,15 +3,48 @@
 ## 1. Class Loader
 The **Class Loader Subsystem** is responsible for loading Java class files (.class) into the JVM at runtime.  
 - **Responsibilities:**
-  - Loads classes into memory.
-  - Verifies bytecode for security.
-  - Prepares memory for class variables.
-  - Resolves references between classes.
-- **Types of Class Loaders:**
-  - **Bootstrap Class Loader** – Loads core Java classes (e.g., `java.lang`, `java.util`).
-  - **Extension Class Loader** – Loads classes from the `ext` directory.
-  - **Application Class Loader** – Loads user‑defined classes from the classpath.
+- **Loading**: Brings class bytecode into memory.
+- **Verification**: Ensures bytecode follows JVM rules and is safe to execute.
+- **Preparation**: Allocates memory for class variables and sets default values.
+- **Resolution**: Replaces symbolic references with direct references to classes, methods, and fields.
 
+- **Types of Class Loaders:**
+  - **Bootstrap Class Loader** –   - Part of the JVM core, written in native code.
+   - Loads core Java classes from `rt.jar` (e.g., `java.lang`, `java.util`).
+   - Example:
+   ```java
+   public class BootstrapDemo {
+       public static void main(String[] args) {
+           // String class is loaded by Bootstrap Class Loader
+           String text = "Hello JVM";
+           System.out.println(text);
+       }
+   }
+```
+
+  - **Extension Class Loader** – Loads classes from the `ext` directory.
+  - Loads classes from the jre/lib/ext directory or any other extension directories.
+   - Example :
+   ```java
+   import javax.crypto.Cipher; // Comes from extension libraries
+   public class ExtensionDemo {
+    public static void main(String[] args) throws Exception {
+        Cipher cipher = Cipher.getInstance("AES"); 
+        System.out.println("Extension class loaded: " + cipher.getAlgorithm());
+    }
+}
+   ```
+  - **Application Class Loader** – Loads user‑defined classes from the classpath.
+  - Example : - Loads user-defined classes from the classpath (CLASSPATH environment variable).
+  
+  ```java  
+  public class ApplicationDemo {
+    public static void main(String[] args) {
+        ApplicationDemo demo = new ApplicationDemo();
+        System.out.println("Loaded by: " + demo.getClass().getClassLoader());
+    }
+}
+```
 ---
 
 ## 2. Runtime Data Areas
