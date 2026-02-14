@@ -46,4 +46,4 @@ This guide walks you through installing the Java Development Kit (JDK) and Java 
 
 
 ## Sample HelloWorld Program . 
-![Alt text](img.png)
+![Alt text](cmdHW.jpg)
