@@ -15,15 +15,18 @@ This guide walks you through installing the Java Development Kit (JDK) and Java 
 
 **Screenshot Placeholder:** ![Alt text](Oracle_website.jpg)
 
+
+![Alt text](download.jpg)
+
 ---
 
 ## 2. Install JDK
 - Run the installer and follow the prompts.
 - By default, JDK installs into:
-  - Windows: `C:\Program Files\Java\jdk-<version>`
-  - macOS/Linux: `/usr/lib/jvm/jdk-<version>`
+  - Windows: `C:\Program Files\Java\jdk-25.0.2`
+  - macOS/Linux: `/usr/lib/jvm/jdk-25.0.2`
 
-**Screenshot Placeholder:** Insert screenshot of installation wizard here.
+**Screenshot Placeholder:** ![Alt text](folder_jdk_vers.jpg).
 
 ---
 
