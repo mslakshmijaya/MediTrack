@@ -34,6 +34,13 @@ The JVM defines several memory regions to manage program execution:
 - Managed automatically by the **Garbage Collector**, which reclaims memory from unused objects.  
 - Heap size can be tuned using JVM options like `-Xms` (initial size) and `-Xmx` (maximum size).
 
+- Example:
+```java
+class Demo {
+    String name = new String("Anup"); // Stored in Heap
+}
+
+
 ---
 
 ### **Stack**
