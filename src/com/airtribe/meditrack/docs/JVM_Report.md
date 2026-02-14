@@ -39,7 +39,7 @@ The JVM defines several memory regions to manage program execution:
 class Demo {
     String name = new String("Anup"); // Stored in Heap
 }
-
+```
 
 ---
 
