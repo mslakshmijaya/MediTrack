@@ -13,7 +13,7 @@ This guide walks you through installing the Java Development Kit (JDK) and Java 
 - Alternatively, use [OpenJDK](https://jdk.java.net/) for an open-source version.
 - Choose the correct installer for your operating system (Windows, macOS, Linux).
 
-**Screenshot Placeholder:** Insert screenshot of the download page here.
+**Screenshot Placeholder:** ![Alt text](Oracle_website.jpg)
 
 ---
 
