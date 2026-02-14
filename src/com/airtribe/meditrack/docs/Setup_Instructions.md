@@ -42,5 +42,8 @@ This guide walks you through installing the Java Development Kit (JDK) and Java 
 **Screenshot Placeholder:** ![Alt Txt](binPath.jpg).
 
 
+![Alt Txt](cmd.jpg)
+
+
 ## Sample HelloWorld Program . 
 ![Alt text](img.png)
