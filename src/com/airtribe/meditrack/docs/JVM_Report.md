@@ -144,11 +144,67 @@ public class PCRegisterDemo {
 ---
 
 ## 3. Execution Engine
-The **Execution Engine** runs the bytecode loaded by the Class Loader.  
-- **Interpreter** – Reads and executes bytecode instructions one by one.  
-- **JIT Compiler (Just‑In‑Time)** – Converts frequently used (“hot”) bytecode into native machine code for faster execution.  
-- **Garbage Collector** – Reclaims memory from unused objects.
 
+The **Execution Engine** is the heart of the JVM. It takes the bytecode loaded by the Class Loader and executes it. The engine ensures efficient execution through interpretation, compilation, and memory management.
+
+### Components
+
+1. **Interpreter**
+   - Reads and executes bytecode instructions one by one.
+   - Simple but slower, since each instruction is interpreted repeatedly.
+   - Example:
+   ```java
+   public class InterpreterDemo {
+       public static void main(String[] args) {
+           int a = 5;
+           int b = 10;
+           int sum = a + b; // Executed line by line by the interpreter
+           System.out.println("Sum: " + sum);
+       }
+   }```
+   
+2. **JIT Compiler (Just‑In‑Time)** 
+   – Converts frequently used (“hot”) bytecode into native machine code for faster execution.
+   – Compiles them into native machine code for faster execution.
+   – Improves performance significantly compared to pure interpretation.
+
+
+  ```java
+   public class JITDemo {
+    public static void main(String[] args) {
+        long start = System.currentTimeMillis();
+        long sum = 0;
+        for (int i = 0; i < 1_000_000; i++) {
+            sum += compute(i); // JIT optimizes this method after repeated calls
+        }
+        long end = System.currentTimeMillis();
+        System.out.println("Sum: " + sum + " Time: " + (end - start) + "ms");
+    }
+
+    static int compute(int x) {
+        return x * x;
+    }
+}```
+
+ -The JVM will initially interpret compute(), but after many calls, JIT compiles it into native code.
+
+   
+3. **Garbage Collector**
+ – Reclaims memory from unused objects.
+ - Automatically reclaims memory from objects no longer in use.
+ - Prevents memory leaks and optimizes heap usage.
+
+```java
+   public class GarbageCollectorDemo {
+    public static void main(String[] args) {
+        for (int i = 0; i < 1000; i++) {
+            String temp = new String("Object " + i);
+            // temp becomes unreachable after each loop iteration
+        }
+        System.gc(); // Suggests JVM to run Garbage Collector
+        System.out.println("Garbage Collection requested.");
+    }
+}```
 ---
 
 ## 4. JIT Compiler vs Interpreter
